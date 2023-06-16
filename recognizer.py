@@ -7,8 +7,8 @@ from dollarpy import Recognizer, Template, Point
 
 class OneDollarRecognizer:
 
-    def __init__(self):
-        self.gestures = ['arrow', 'caret', 'circle', 'check', 'rectangle']
+    def __init__(self, gestures):
+        self.gestures = gestures
         self.recognizer = self.read_data_and_define_recognizer()
 
     def read_data_and_define_recognizer(self):

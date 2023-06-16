@@ -9,9 +9,10 @@ WINDOW_HEIGHT = 500
 
 window = pyglet.window.Window(width=WINDOW_WIDTH, height=WINDOW_HEIGHT)
 result_text = pyglet.text.Label("???", x=WINDOW_WIDTH-50, y=WINDOW_HEIGHT-20, anchor_x='center', anchor_y='center')
+gestures = ['arrow', 'caret', 'circle', 'check', 'rectangle']
 points = []
 
-recognizer = OneDollarRecognizer()
+recognizer = OneDollarRecognizer(gestures)
 
 
 @window.event
