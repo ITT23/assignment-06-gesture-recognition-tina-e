@@ -33,8 +33,10 @@ def on_key_press(symbol, modifiers):
 
 @window.event
 def on_mouse_release(x, y, button, modifiers):
+    global points
     if button & pyglet.window.mouse.LEFT:
         if len(points) > 0:
+            points = recognizer.preprocess(points)
             result = recognizer.recognize(points)
             game.check_recognized_gestures(result[0], result[1])
             points.clear()
@@ -42,9 +44,10 @@ def on_mouse_release(x, y, button, modifiers):
 
 @window.event
 def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
+    global points
     if buttons & pyglet.window.mouse.LEFT:
-        points.append(recognizer.get_point(int(x), int(WINDOW_HEIGHT-y)))
-        rect = pyglet.shapes.Line(x, y, x+dx, y+dy, width=3, color=(156, 0, 75))
+        points.append((int(x), int(WINDOW_HEIGHT-y)))
+        rect = pyglet.shapes.Line(x, y, x+dx, y+dy, width=7, color=(156, 0, 75))
         game.rects.append(rect)
 
 

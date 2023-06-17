@@ -43,12 +43,12 @@ class Game:
     def on_end(self):
         self.game_state = 2
         self.status_label.text = "You've learned all spells."
-        if self.score < self.num_spells * 25:
-            self.status_outcome_label.text = "Now, you are a not-good-not-bad novice wizard, nuja!"
-        elif self.num_spells * 25 < self.score < self.num_spells * 40:
-            self.status_outcome_label.text = "Now, you are a good novice wizard!"
-        elif self.score > self.num_spells * 40:
-            self.status_outcome_label.text = "Now, you are a excellent novice wizard yay!"
+        if self.score < self.num_spells * 30:
+            self.status_outcome_label.text = "Your skills are ok. Take your chance to improve next semester!"
+        elif self.num_spells * 30 < self.score < self.num_spells * 60:
+            self.status_outcome_label.text = "You are a good wizard! Well done!"
+        elif self.score > self.num_spells * 60:
+            self.status_outcome_label.text = "You are an excellent wizard! Awesome!"
 
     def on_space(self):
         # no more actions when game ended
@@ -83,7 +83,7 @@ class Game:
             self.tries = 1
         else:
             self.status_label.text = '--- NOT CORRECT ---'
-            self.status_outcome_label = 'Press SPACE to try again.'
+            self.status_outcome_label.text = 'Press SPACE to try again.'
             self.tries += 1
             self.again = True
 
