@@ -8,8 +8,8 @@ WINDOW_WIDTH = 500
 WINDOW_HEIGHT = 500
 
 window = pyglet.window.Window(width=WINDOW_WIDTH, height=WINDOW_HEIGHT)
-result_text = pyglet.text.Label("???", x=WINDOW_WIDTH-50, y=WINDOW_HEIGHT-20, anchor_x='center', anchor_y='center')
-gestures = ['arrow', 'caret', 'circle', 'check', 'rectangle']
+result_text = pyglet.text.Label("???", x=WINDOW_WIDTH/2, y=WINDOW_HEIGHT-20, anchor_x='center', anchor_y='center')
+gestures = ['x', 'caret', 'circle', 'check', 'star']
 points = []
 
 recognizer = OneDollarRecognizer(gestures)
@@ -25,11 +25,12 @@ def on_key_press(symbol, modifiers):
 
 @window.event
 def on_mouse_release(x, y, button, modifiers):
+    global points
     window.clear()
     if button & pyglet.window.mouse.LEFT:
+        points = recognizer.preprocess(points)
         result = recognizer.recognize(points)
-        result_text.text = result[0]
-        print(result)
+        result_text.text = f'{result[0]}: {round(result[1], 2)}'
         points.clear()
         result_text.draw()
 
@@ -37,8 +38,8 @@ def on_mouse_release(x, y, button, modifiers):
 @window.event
 def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
     if buttons & pyglet.window.mouse.LEFT:
-        points.append(recognizer.get_point(int(x), int(WINDOW_HEIGHT-y)))
-        rect = pyglet.shapes.Line(x, y, x+dx, y+dy, width=3)
+        points.append((int(x), int(WINDOW_HEIGHT-y)))
+        rect = pyglet.shapes.Line(x, y, x+dx, y+dy, width=7, color=(156, 0, 75))
         rect.draw()
 
 
