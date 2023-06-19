@@ -2,7 +2,6 @@
 import math
 import os
 import xml.etree.ElementTree as ET
-from dollarpy import Recognizer, Template, Point
 from shapely.geometry import Polygon
 import numpy as np
 
@@ -105,7 +104,6 @@ class OneDollarRecognizer:
                 b = distance
                 recognized_gesture = gesture
         score = 1 - b / (0.5 * math.sqrt(self.size ** 2 + self.size ** 2))
-        print(score)
         return recognized_gesture, score
 
     def get_distance_at_best_angle(self, input, base, a_theta, b_theta, delta_theta):
