@@ -6,13 +6,14 @@ from recognizer import OneDollarRecognizer
 
 WINDOW_WIDTH = 500
 WINDOW_HEIGHT = 500
+NUM_POINTS = 64
 
 window = pyglet.window.Window(width=WINDOW_WIDTH, height=WINDOW_HEIGHT)
 result_text = pyglet.text.Label("???", x=WINDOW_WIDTH/2, y=WINDOW_HEIGHT-20, anchor_x='center', anchor_y='center')
 gestures = ['x', 'caret', 'circle', 'check', 'star']
 points = []
 
-recognizer = OneDollarRecognizer(gestures)
+recognizer = OneDollarRecognizer(gestures, NUM_POINTS)
 
 
 @window.event

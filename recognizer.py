@@ -9,17 +9,17 @@ import numpy as np
 
 class OneDollarRecognizer:
 
-    def __init__(self, gestures):
+    def __init__(self, gestures, num_points):
         self.gestures = gestures
         self.size = 250
-        self.num_points_per_polygon = 64
+        self.num_points_per_polygon = num_points
         self.templates = self.read_data()  # dict {'_gesture_': _list of interpolated points as tuples_}
 
     def read_data(self):
         templates = dict()
         for gest in self.gestures:
             # read xmls
-            root = ET.parse(f'dataset/s01/slow/{gest}05.xml').getroot()
+            root = ET.parse(os.path.normpath(f'dataset/s01/slow/{gest}05.xml')).getroot()
             points = []
             for point in root:
                 points.append((int(point.attrib['X']), int(point.attrib['Y'])))
@@ -38,11 +38,6 @@ class OneDollarRecognizer:
 
     def resample(self, points):
         return resample(points, self.num_points_per_polygon)
-        #points_nd = np.array(points)
-        #distance = np.cumsum(np.r_[0, np.sqrt((np.diff(points_nd, axis=0) ** 2).sum(axis=1))])
-        #distance_sampled = np.linspace(0, distance.max(), self.num_points_per_polygon)
-        #points_resampled = np.c_[np.interp(distance_sampled, distance, points_nd[:, 0]), np.interp(distance_sampled, distance, points_nd[:, 1])]
-        #return points_resampled
 
     def get_centroid(self, points):
         polygon = Polygon(points)

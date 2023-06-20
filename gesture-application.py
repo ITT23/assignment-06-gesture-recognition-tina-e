@@ -7,9 +7,10 @@ from Game import Game
 
 WINDOW_WIDTH = 750
 WINDOW_HEIGHT = 500
+NUM_POINTS = 64
 GESTURES = ['circle', 'arrow', 'pigtail']
 
-recognizer = OneDollarRecognizer(GESTURES)
+recognizer = OneDollarRecognizer(GESTURES, NUM_POINTS)
 points = []
 
 window = pyglet.window.Window(width=WINDOW_WIDTH, height=WINDOW_HEIGHT)
