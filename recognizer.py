@@ -3,6 +3,7 @@ import math
 import os
 import xml.etree.ElementTree as ET
 from shapely.geometry import Polygon
+from scipy.signal import resample
 import numpy as np
 
 
@@ -36,11 +37,12 @@ class OneDollarRecognizer:
         return points
 
     def resample(self, points):
-        points_nd = np.array(points)
-        distance = np.cumsum(np.r_[0, np.sqrt((np.diff(points_nd, axis=0) ** 2).sum(axis=1))])
-        distance_sampled = np.linspace(0, distance.max(), self.num_points_per_polygon)
-        points_resampled = np.c_[np.interp(distance_sampled, distance, points_nd[:, 0]), np.interp(distance_sampled, distance, points_nd[:, 1])]
-        return points_resampled
+        return resample(points, self.num_points_per_polygon)
+        #points_nd = np.array(points)
+        #distance = np.cumsum(np.r_[0, np.sqrt((np.diff(points_nd, axis=0) ** 2).sum(axis=1))])
+        #distance_sampled = np.linspace(0, distance.max(), self.num_points_per_polygon)
+        #points_resampled = np.c_[np.interp(distance_sampled, distance, points_nd[:, 0]), np.interp(distance_sampled, distance, points_nd[:, 1])]
+        #return points_resampled
 
     def get_centroid(self, points):
         polygon = Polygon(points)
@@ -94,6 +96,19 @@ class OneDollarRecognizer:
 
     def recognize(self, input_points):
         input_points = self.preprocess(input_points)
+        theta = 45 * (math.pi / 180)
+        delta_theta = 2 * (math.pi / 180)
+        b = math.inf
+        recognized_gesture = None
+        for gesture, base_points in self.templates.items():
+            distance = self.get_distance_at_best_angle(input_points, base_points, -theta, theta, delta_theta)
+            if distance < b:
+                b = distance
+                recognized_gesture = gesture
+        score = 1 - b / (0.5 * math.sqrt(self.size ** 2 + self.size ** 2))
+        return recognized_gesture, score
+    
+    def recognize_without_preprocessing(self, input_points):
         theta = 45 * (math.pi / 180)
         delta_theta = 2 * (math.pi / 180)
         b = math.inf
