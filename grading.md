@@ -9,7 +9,7 @@
  * five gestures distinguished
    * somewhat unreliable (-0.5)
  * UI
-   * flickers a lot and the line is called "rect" - you can do better (-0.5)
+   * ist gut jetzt
 
 ### 2 Comparison (5/5P)
 
