@@ -1,6 +1,6 @@
-## Emmert (14/15P)
+## Emmert (14.5/15P)
 
-### 1 $1 Recognizer (4/5P)
+### 1 $1 Recognizer (4.5/5P)
 
  * recognizer works
    * yes (2P)
